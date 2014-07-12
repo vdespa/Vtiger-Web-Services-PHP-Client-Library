@@ -1,0 +1,19 @@
+{
+    "name": "vdespa/vtiger",
+    "type": "library",
+    "description": "Vtiger Web Services PHP Client Library",
+    "keywords": ["vtiger", "webservices", "vtwsclib"],
+    "homepage": "https://github.com/vdespa/Vtiger-Web-Services-PHP-Client-Library",
+    "license": "The MIT License (MIT)",
+    "require": {
+        "php": ">=5.3.10",
+        "guzzlehttp/guzzle": "4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vdespa\\Vtiger\\": "src/",
+            "Vdespa\\Vtiger\\Tests\\": "Tests/"
+        }
+    }
+
+}

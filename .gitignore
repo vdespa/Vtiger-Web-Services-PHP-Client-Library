@@ -1,0 +1,6 @@
+# IDE & System Related Files #
+.buildpath
+.project
+.settings
+.DS_Store
+.idea
