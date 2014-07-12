@@ -13,7 +13,7 @@ Specify vtwsphpclib as a dependency in your **composer.json** file:
 
 	{
    		"require": {
-      		"guzzlehttp/guzzle": "4.*"
+      		"vdespa/vtiger": "dev-master"
    		}
 	}
 
