@@ -33,7 +33,7 @@ Specify vtwsphpclib as a dependency in your **composer.json** file:
 
 	$wsclient = new Vtiger\WSClient($url, $config);
 
-## Retriving Errors
+## Retrieving Errors
 
 If an operation fails, the return value will be false. No error will be displayed unless you call
 
