@@ -4,3 +4,10 @@
 .settings
 .DS_Store
 .idea
+
+# Test Related Files #
+
+# Composer
+composer.lock
+composer.phar
+/vendor
