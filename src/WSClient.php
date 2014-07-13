@@ -2,7 +2,6 @@
 /**
  * Vtiger Web Services PHP Client Library (vtwsphpclib)
  *
- *
  * Inspired by vtwsclib – vtiger CRM Web Services Client Library version 1.4
  * Build with Guzzle. Thanks!
  *
@@ -51,18 +50,53 @@ class WSClient
 	 */
 	protected $wsFileName = 'webservice.php';
 
+	/**
+	 * Complete URL
+	 *
+	 * @var string
+	 */
 	protected $vtigerWebServiceURL;
 
+	/**
+	 * HTTP Client
+	 *
+	 * @var \GuzzleHttp\Client
+	 */
 	protected $httpClient;
 
+	/**
+	 * Session name
+	 *
+	 * @var string
+	 */
 	protected $sessionName;
 
+	/**
+	 * User Id
+	 *
+	 * @var string
+	 */
 	protected $userId;
 
+	/**
+	 * Web Service Version
+	 *
+	 * @var string
+	 */
 	protected $apiVersion;
 
+	/**
+	 * Vtiger version
+	 *
+	 * @var string
+	 */
 	protected $vtigerVersion;
 
+	/**
+	 * Last error
+	 *
+	 * @var WSClientError
+	 */
 	protected $lastError;
 
 	/**
@@ -70,16 +104,36 @@ class WSClient
 	 */
 	public function __construct($url, $config = array())
 	{
+		// Build the URL
 		$this->vtigerWebServiceURL = $this->buildWebServiceURL($url, $config);
+
+		// Create HTTP client
 		$this->httpClient = new Client();
 
 		// Login
 		if (array_key_exists('username', $config['auth']) && array_key_exists('accesskey', $config['auth']))
 		{
 			$login = $this->login($config['auth']['username'], $config['auth']['accesskey']);
+			return $login;
+		}
+		else
+		{
+			$this->lastError = new WSClientError(
+				'NO_CREDENTIALS_FOUND',
+				'Username or accesskey not provided.',
+				var_export($config)
+			);
+			return false;
 		}
 	}
 
+	/**
+	 * Build the URL based on the base url and the config.
+	 *
+	 * @param string $url
+	 * @param array $config
+	 * @return string
+	 */
 	protected function buildWebServiceURL($url, array $config)
 	{
 		// Check if URL already contains 'webservice.php'
@@ -103,7 +157,11 @@ class WSClient
 	}
 
 	/**
-	 * Do Login Operation
+	 * Perform Login Operation.
+	 *
+	 * @param string $username
+	 * @param string $accessKey
+	 * @return bool
 	 */
 	protected function login($username, $accessKey) {
 
