@@ -5,6 +5,10 @@ Vtiger Web Services PHP Client Library (vtwsphpclib)
 
 Modern Vtiger Web Services Client
 
+Build Status
+---------------------
+Travis-CI: [![Build Status](https://travis-ci.org/vdespa/Vtiger-Web-Services-PHP-Client-Library.png)](https://travis-ci.org/vdespa/Vtiger-Web-Services-PHP-Client-Library)
+
 # Installation
 
 The recommended way to install vtwsphpclib is with [Composer](https://getcomposer.org/). Composer is a dependency management tool for PHP.
