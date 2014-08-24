@@ -6,7 +6,7 @@
     "homepage": "https://github.com/vdespa/Vtiger-Web-Services-PHP-Client-Library",
     "license": "The MIT License (MIT)",
     "require": {
-        "php": ">=5.3.10",
+        "php": ">=5.4",
         "guzzlehttp/guzzle": "4.*"
     },
     "autoload": {
