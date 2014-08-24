@@ -6,6 +6,7 @@
 .idea
 
 # Test Related Files #
+phpunit-lts.phar
 
 # Composer
 composer.lock
