@@ -2,14 +2,12 @@
 // Autoload files using Composer autoload
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Vdespa\Vtiger;
+use Vdespa\Vtiger\WSClient;
 
-class WSClientTest extends \PHPUnit_Framework_TestCase
+class WSClientTest extends PHPUnit_Framework_TestCase
 {
 	protected function setUp()
 	{
-		$this->client = new HttpClient();
-
 		$url = 'http://vtigercrm6x/';
 
 		$config = [
@@ -19,7 +17,7 @@ class WSClientTest extends \PHPUnit_Framework_TestCase
 			]
 		];
 
-		$this->wsclient = new Vtiger\WSClient($url, $config);
+		$this->wsclient = new WSClient($url, $config);
 	}
 
 	public function testCanCreateClient()
