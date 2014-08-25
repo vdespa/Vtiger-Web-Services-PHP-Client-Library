@@ -1,0 +1,1 @@
+{"success":true,"result":{"sessionName":"18653fb863106084","userId":"19x5","version":"0.22","vtigerVersion":"6.0.0"}}

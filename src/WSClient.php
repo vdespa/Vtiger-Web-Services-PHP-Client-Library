@@ -46,6 +46,8 @@ use GuzzleHttp\Exception\RequestException;
 class WSClient
 {
 	/**
+	 * Default PHP script for web services on Vtiger installation
+	 *
 	 * @var string
 	 */
 	protected $wsFileName = 'webservice.php';
@@ -101,6 +103,8 @@ class WSClient
 
 	/**
 	 * Constructor.
+	 *
+	 * todo $url should be packed in the config.
 	 */
 	public function __construct($url, $config = array())
 	{
@@ -108,13 +112,20 @@ class WSClient
 		$this->vtigerWebServiceURL = $this->buildWebServiceURL($url, $config);
 
 		// Create HTTP client
-		$this->httpClient = new Client();
+		if (array_key_exists('client', $config['testing']) && $config['testing']['client'] instanceof Client)
+		{
+			$this->httpClient = $config['testing']['client'];
+		}
+		else
+		{
+			$this->httpClient = new Client();
+		}
+
 
 		// Login
 		if (array_key_exists('username', $config['auth']) && array_key_exists('accesskey', $config['auth']))
 		{
 			$login = $this->login($config['auth']['username'], $config['auth']['accesskey']);
-			return $login;
 		}
 		else
 		{
@@ -123,7 +134,6 @@ class WSClient
 				'Username or accesskey not provided.',
 				var_export($config)
 			);
-			return false;
 		}
 	}
 
@@ -236,6 +246,9 @@ class WSClient
 
 	/**
 	 * Get a challenge token from the server
+	 *
+	 * @param string $username
+	 * @return string | bool
 	 */
 	protected function getChallenge($username)
 	{
@@ -469,6 +482,12 @@ class WSClient
 		}
 	}
 
+	/**
+	 * Delete object
+	 *
+	 * @param $recordId
+	 * @return bool
+	 */
 	public function deleteObject($recordId)
 	{
 		$response = $this->httpClient->post($this->vtigerWebServiceURL, [
@@ -567,9 +586,10 @@ class WSClient
 	/**
 	 * Invoke custom operation
 	 *
-	 * @param String $operation Name of the operation to invoke
-	 * @param String $httpMethod HTTP method
-	 * @param String $params
+	 * @param string $operation Name of the operation to invoke
+	 * @param array $params
+	 * @param string $httpMethod HTTP method to use
+	 * @return bool
 	 */
 	function callOperation($operation, array $params, $httpMethod = 'POST')
 	{
@@ -632,5 +652,15 @@ class WSClient
 	public function getLastError()
 	{
 		return $this->lastError;
+	}
+
+	/**
+	 * Return an instance of the http client
+	 *
+	 * @return \GuzzleHttp\Client
+	 */
+	public function getHttpClient()
+	{
+		return $this->httpClient;
 	}
 } 

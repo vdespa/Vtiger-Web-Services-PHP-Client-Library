@@ -1,9 +1,6 @@
-Vtiger-Web-Services-PHP-Client-Library
-======================================
-
 Vtiger Web Services PHP Client Library (vtwsphpclib)
-
-Modern Vtiger Web Services Client
+======================================
+Composer based Vtiger Web Services Client.
 
 Build Status
 ---------------------
@@ -24,7 +21,7 @@ Specify vtwsphpclib as a dependency in your **composer.json** file:
 # Usage
 
 ## Creating the WSClient object
-	use Vdespa\Vtiger;
+	use Vdespa\Vtiger\WSClient;
 
 	$url = 'http://example.com/';
 
@@ -35,7 +32,7 @@ Specify vtwsphpclib as a dependency in your **composer.json** file:
 		]
 	];
 
-	$wsclient = new Vtiger\WSClient($url, $config);
+	$wsclient = new WSClient($url, $config);
 
 ## Retrieving Errors
 
@@ -47,6 +44,12 @@ If an operation fails, the return value will be false. No error will be displaye
 
 	$create = $wsclient->createObject('Accounts', array('accountname' => 'Test account'));
 
+## List Types
+
+Get a list of Vtiger objects that are available when using the API.
+
+	$availableModules = $wsclient->getAvailableModules();
+
 ## Other operations
 
 -- Work in progress --
@@ -56,5 +59,5 @@ If an operation fails, the return value will be false. No error will be displaye
 Licensed using the MIT license. See LICENSE.
 
 # Thanks
-- Build with Guzzle
+- Build with Guzzle 4.*
 - Inspired by vtwsclib – vtiger CRM Web Services Client Library version 1.4
