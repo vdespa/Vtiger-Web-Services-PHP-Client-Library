@@ -14,9 +14,11 @@ Specify vtwsphpclib as a dependency in your **composer.json** file:
 
 	{
    		"require": {
-      		"vdespa/vtiger": "dev-master"
+      		"vdespa/vtiger": "0.1"
    		}
 	}
+
+In case you are new to Composer, you need to include the file `/vendor/autoload.php` file.
 
 # Usage
 
