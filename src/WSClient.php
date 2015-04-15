@@ -112,7 +112,7 @@ class WSClient
 		$this->vtigerWebServiceURL = $this->buildWebServiceURL($url, $config);
 
 		// Create HTTP client
-		if (array_key_exists('client', $config['testing']) && $config['testing']['client'] instanceof Client)
+		if (array_key_exists('testing', $config) && array_key_exists('client', $config['testing']) && $config['testing']['client'] instanceof Client)
 		{
 			$this->httpClient = $config['testing']['client'];
 		}
