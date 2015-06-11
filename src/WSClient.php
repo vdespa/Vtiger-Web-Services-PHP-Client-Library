@@ -199,11 +199,7 @@ class WSClient
 			}
 			else
 			{
-				$this->lastError = new WSClientError(
-										$json['error']['code'],
-										$json['error']['message'],
-										$json['error']['xdebug_message']
-				);
+				$this->setLastError($json);
 				return false;
 			}
 		}
@@ -235,11 +231,7 @@ class WSClient
 		}
 		else
 		{
-			$this->lastError = new WSClientError(
-				$json['error']['code'],
-				$json['error']['message'],
-				$json['error']['xdebug_message']
-			);
+			$this->setLastError($json);
 			return false;
 		}
 	}
@@ -264,9 +256,9 @@ class WSClient
 		catch (RequestException $e)
 		{
 			$this->lastError =  new WSClientError(
-										$e->getCode(),
-										$e->getMessage(),
-										null
+				$e->getCode(),
+				$e->getMessage(),
+				null
 			);
 			return false;
 		}
@@ -279,11 +271,7 @@ class WSClient
 		}
 		else
 		{
-			$this->lastError = new WSClientError(
-				$json['error']['code'],
-				$json['error']['message'],
-				$json['error']['xdebug_message']
-			);
+			$this->setLastError($json);
 			return false;
 		}
 	}
@@ -312,11 +300,7 @@ class WSClient
 		}
 		else
 		{
-			$this->lastError = new WSClientError(
-				$json['error']['code'],
-				$json['error']['message'],
-				$json['error']['xdebug_message']
-			);
+			$this->setLastError($json);
 			return false;
 		}
 	}
@@ -345,11 +329,7 @@ class WSClient
 		}
 		else
 		{
-			$this->lastError = new WSClientError(
-				$json['error']['code'],
-				$json['error']['message'],
-				$json['error']['xdebug_message']
-			);
+			$this->setLastError($json);
 			return false;
 		}
 	}
@@ -389,11 +369,7 @@ class WSClient
 		}
 		else
 		{
-			$this->lastError = new WSClientError(
-				$json['error']['code'],
-				$json['error']['message'],
-				$json['error']['xdebug_message']
-			);
+			$this->setLastError($json);
 			return false;
 		}
 	}
@@ -422,11 +398,7 @@ class WSClient
 		}
 		else
 		{
-			$this->lastError = new WSClientError(
-				$json['error']['code'],
-				$json['error']['message'],
-				$json['error']['xdebug_message']
-			);
+			$this->setLastError($json);
 			return false;
 		}
 	}
@@ -468,11 +440,7 @@ class WSClient
 			}
 			else
 			{
-				$this->lastError = new WSClientError(
-					$json['error']['code'],
-					$json['error']['message'],
-					$json['error']['xdebug_message']
-				);
+				$this->setLastError($json);
 				return false;
 			}
 		}
@@ -506,11 +474,7 @@ class WSClient
 		}
 		else
 		{
-			$this->lastError = new WSClientError(
-				$json['error']['code'],
-				$json['error']['message'],
-				$json['error']['xdebug_message']
-			);
+			$this->setLastError($json);
 			return false;
 		}
 	}
@@ -539,11 +503,7 @@ class WSClient
 		}
 		else
 		{
-			$this->lastError = new WSClientError(
-				$json['error']['code'],
-				$json['error']['message'],
-				$json['error']['xdebug_message']
-			);
+			$this->setLastError($json);
 			return false;
 		}
 	}
@@ -574,11 +534,7 @@ class WSClient
 		}
 		else
 		{
-			$this->lastError = new WSClientError(
-				$json['error']['code'],
-				$json['error']['message'],
-				$json['error']['xdebug_message']
-			);
+			$this->setLastError($json);
 			return false;
 		}
 	}
@@ -635,11 +591,7 @@ class WSClient
 		}
 		else
 		{
-			$this->lastError = new WSClientError(
-				$json['error']['code'],
-				$json['error']['message'],
-				$json['error']['xdebug_message']
-			);
+			$this->setLastError($json);
 			return false;
 		}
 	}
@@ -652,6 +604,24 @@ class WSClient
 	public function getLastError()
 	{
 		return $this->lastError;
+	}
+
+	/**
+	 * Set last error
+	 * 
+	 * @param array $json Server response
+	 */
+	public function setLastError($json)
+	{
+		$code           = isset($json['error']['code']) ? $json['error']['code'] : NULL;
+		$message        = isset($json['error']['message']) ? $json['error']['message'] : NULL;
+		$xdebug_message = isset($json['error']['xdebug_message']) ? $json['error']['xdebug_message'] : NULL;
+
+		$this->lastError = new WSClientError(
+			$code,
+			$message,
+			$xdebug_message
+		);
 	}
 
 	/**
