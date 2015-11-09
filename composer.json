@@ -25,7 +25,7 @@
       "": "src"
     },
     "psr-4": {
-      "Vdespa\\Vtiger": "src",
+      "Vdespa\\Vtiger\\": "src",
       "Vdespa\\Vtiger\\Tests\\": "Tests"
     }
   }

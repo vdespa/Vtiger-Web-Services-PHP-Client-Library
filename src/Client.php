@@ -34,26 +34,137 @@
 
 namespace Vdespa\Vtiger;
 
-use GuzzleHttp\ClientInterface;
+use GuzzleHttp;
+use Vdespa\Vtiger\Domain\Adapter;
+use Vdespa\Vtiger\Domain\PayloadFactory;
+use Vdespa\Vtiger\Domain\Repository\EntityRepositoryInterface;
+use Vdespa\Vtiger\Domain\Service\AuthenticationService;
+use Vdespa\Vtiger\Domain\Service\RequestService;
+use Vdespa\Vtiger\Session\SessionManager;
 
 class Client
 {
-    private $httpClient;
+    /**
+     * @var PayloadFactory
+     */
+    private $payloadFactory;
 
-    private $isAuthenticated = false;
+    /**
+     * @var RequestService
+     */
+    private $requestService;
 
-    public function __construct(ClientInterface $httpClient, array $config = [])
+    /**
+     * @var SessionManager
+     */
+    private $sessionManager;
+
+    /**
+     * @var AuthenticationService
+     */
+    private $authenticationService;
+
+    /**
+     * @param array $config
+     * @param RequestService|null $requestService
+     * @param PayloadFactory|null $payloadFactory
+     * @param SessionManager|null $sessionManager
+     * @param AuthenticationService|null $authenticationService
+     */
+    public function __construct(
+        array $config = [],
+        RequestService $requestService = null,
+        PayloadFactory $payloadFactory = null,
+        SessionManager $sessionManager = null,
+        AuthenticationService $authenticationService = null
+    ) {
+        // Validate the configuration
+        $this->validateConfiguration($config);
+
+        // Create the dependencies if not already provided
+        $httpClient = new GuzzleHttp\Client($config['httpClient']);
+        $this->sessionManager = $sessionManager ? $sessionManager : $this->sessionManager = new SessionManager();
+        $this->requestService = $requestService ? $requestService :
+            new RequestService(
+                $httpClient,
+                $this->sessionManager,
+                new \Vdespa\Vtiger\Adapter\AdapterStrategyFactory()
+            );
+        $this->payloadFactory = $payloadFactory ? $payloadFactory : $this->payloadFactory = new PayloadFactory();
+
+
+        $this->authenticationService = $authenticationService ? $authenticationService :
+            $authenticationService = new AuthenticationService(
+                $config,
+                $this->payloadFactory,
+                $this->requestService,
+                $this->sessionManager
+            );
+
+        // Authenticate
+        $this->authenticationService->authenticate();
+    }
+
+    /**
+     * Instantiate the requested repository
+     *
+     * @param $repositoryName
+     * @return EntityRepositoryInterface
+     */
+    public function getRepositoryByName($repositoryName)
     {
-        $this->httpClient = $httpClient;
+        $repositoryName = 'Vdespa\\Vtiger\\Domain\\Repository\\' . ucfirst(strtolower($repositoryName)) . 'Repository';
 
-        if (array_key_exists('credentials', $config) === false)
-        {
-            throw new \InvalidArgumentException('Could not find credentials in the configuration');
+        return new $repositoryName($this->payloadFactory, $this->requestService, new \Vdespa\Vtiger\Adapter\AdapterStrategyFactory(),
+            $this->sessionManager);
+    }
+
+    /**
+     * Close the current session.
+     *
+     * @return boolean
+     */
+    public function logout()
+    {
+        $this->authenticationService->logout();
+    }
+
+    /**
+     * Extends the current session
+     *
+     * @internal For the moment there is a bug and calling this method will throw an exception.
+     */
+    public function extendSession()
+    {
+        $this->authenticationService->extendSession();
+    }
+
+    /**
+     * @return SessionManager
+     * @deprecated
+     */
+    public function getSessionManager()
+    {
+        return $this->sessionManager;
+    }
+
+    /**
+     * Validate the user given configuration
+     *
+     * @param array $config
+     */
+    private function validateConfiguration(array $config)
+    {
+        if (array_key_exists('credentials', $config) === false) {
+            throw new \InvalidArgumentException('Could not find the key "credentials" in the configuration',
+                1445160480);
+        }
+
+        if (array_key_exists('httpClient', $config) === false) {
+            throw new \InvalidArgumentException('Could not find the key "httpClient" in the configuration', 1445160490);
         }
 
         $this->validateCredentials($config['credentials']);
-
-        $this->authenticate();
     }
 
     /**
@@ -63,51 +174,10 @@ class Client
      */
     private function validateCredentials(array $credentials)
     {
-        if (array_key_exists('username', $credentials) === false && (string) $credentials['username'] !== '')
-        {
-            throw new \InvalidArgumentException('Could not find the username in the configuration');
+        if (array_key_exists('username', $credentials) === false && (string)$credentials['username'] !== '') {
+            throw new \InvalidArgumentException('Could not find the username in the credentials configuration');
         }
 
         return true;
-    }
-
-    /**
-     * @return bool
-     */
-    private function authenticate()
-    {
-        $this->isAuthenticated = true;
-        return true;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isAuthenticated()
-    {
-        return $this->isAuthenticated;
-    }
-
-    /**
-     * Get a challenge token from the server
-     *
-     * @param string $username
-     * @return string
-     */
-    private function getChallenge($username)
-    {
-        return '';
-    }
-
-    /**
-     * Provides a list of available modules.
-     *
-     * This list only contains modules the logged in user has access to.
-     *
-     * @return array
-     */
-    public function getAvailableModules()
-    {
-        return [];
     }
 }
