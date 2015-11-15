@@ -1,0 +1,10 @@
+default:
+  autoload:
+      '': %paths.base%/tests/features/bootstrap
+  suites:
+      core_features:
+          paths:
+              - %paths.base%/tests/features
+      parameters:
+          base_url: http://vtiger.local/webservice.php
+

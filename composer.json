@@ -15,6 +15,7 @@
   },
   "require-dev": {
     "phpspec/phpspec": "~2.0",
+    "behat/behat": "~3.0.6",
     "guzzlehttp/streams": "~3.0"
   },
   "config": {

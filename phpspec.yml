@@ -1,0 +1,5 @@
+suites:
+    default:
+      namespace: Vdespa\Vtiger
+      spec_path: tests/spec
+      src_path: src
