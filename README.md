@@ -120,11 +120,9 @@ $accountsRepository->create($account);
 ## Retrieving an Entity
 
 You can retrieve an entity if you know the id.
-    
+
 ```php
-
 $account = $accountsRepository->getById('11x5');
-
 ```
     
 ## Retrieving all Entities of a kind
@@ -132,9 +130,7 @@ $account = $accountsRepository->getById('11x5');
 If you want to retrieve all Accounts:
 
 ```php
-
 $accounts = $accountsRepository->retrieveAll();
-
 ```
 
 Notice: This will actually retrieve all accounts (there is no predefined limit, so use with caution).
@@ -164,9 +160,7 @@ To delete an existing entity you just need the id of the Entity you want to dele
 Say you want to delete an Account:
 
 ```php
-
 $accountsRepository->deleteById('11x5'));
-
 ```
 
 # License
