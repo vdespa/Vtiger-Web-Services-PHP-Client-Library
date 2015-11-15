@@ -20,11 +20,13 @@ The recommended way to install vtwsphpclib is with [Composer](https://getcompose
 
 Specify vtwsphpclib as a dependency in your **composer.json** file:
 
-	{
-   		"require": {
-      		"vdespa/vtiger": "1.0.0-alpha"
-   		}
-	}
+```
+{
+    "require": {
+        "vdespa/vtiger": "1.0.0-alpha"
+    }
+}
+```
 
 In case you are new to Composer, you need to include the file `/vendor/autoload.php` somewhere in your project.
 
@@ -36,19 +38,19 @@ You need to create an instance of the Client object in order to connect to the V
 Therefore you need the server URL and a valid username and the access key for the user.  
 
 ```php
-	use Vdespa\Vtiger\Client;
-	
-	$config = $validConfiguration = [
-		'credentials' => [
-			'username' => 'YOUR_VTIGER_USERNAME',
-			'accessKey'=> 'YOUR_VTIGER_ACCESSKEY'
-		],
-		'httpClient' => [
-			'base_url' => 'http://example.com/webservice.php'
-		]
-	];
-	
-	$wsClient = new Client($config);
+use Vdespa\Vtiger\Client;
+
+$config = $validConfiguration = [
+    'credentials' => [
+        'username' => 'YOUR_VTIGER_USERNAME',
+        'accessKey'=> 'YOUR_VTIGER_ACCESSKEY'
+    ],
+    'httpClient' => [
+        'base_url' => 'http://example.com/webservice.php'
+    ]
+];
+
+$wsClient = new Client($config);
 ```
 
 ## Error handling
@@ -57,13 +59,17 @@ If something does wrong, the Client will throw Exceptions which you will need to
 If you don't have a global exception handling that will catch any exception that was thrown, you need to put all Client
 calls between try - catch blocks.
 
-	try {
-		$wsClient = new Client($config);
-	} catch (Exception $e)
-	{
-		// Implement your own exception handling here.
-		// Bad example of error handling: die($e->getMessage());
-	}
+```php
+
+try {
+    $wsClient = new Client($config);
+} catch (Exception $e)
+{
+    // Implement your own exception handling here.
+    // Bad example of error handling: die($e->getMessage());
+}
+
+```
 
 [//]: <> (TODO: Document all types of Exceptions that the Client can throw)
 
@@ -74,8 +80,12 @@ entity you want to work with.
 
 For example, if you want to create a new Account and persist it, you will need the AccountsRepository.
 
-    /** @var AccountsRepository $accountsRepository */
-    $accountsRepository = $wsClient->getRepositoryByName('Accounts');
+```php
+
+/** @var AccountsRepository $accountsRepository */
+$accountsRepository = $wsClient->getRepositoryByName('Accounts');
+
+```
     
 Each Entity Repository exposes a couple of CRUD methods as defined by the EntityRepositoryInterface.
 
@@ -91,29 +101,41 @@ In order to perform CRUD operations, you need to work with a repository.
 
 Say you want to create a new Entity of type Account. 
 
-    use \Vdespa\Vtiger\Domain\Model\Account;
-    
-    // Create a new Account
-    $account = new Account('My Account Name');
-    
-    // Get an instance of the Accounts Repository
-    /** @var AccountsRepository $accountsRepository */
-    $accountsRepository = $wsClient->getRepositoryByName('Accounts');
-    
-    // Save the account
-    $accountsRepository->create($account);
+```php
+
+use \Vdespa\Vtiger\Domain\Model\Account;
+
+// Create a new Account
+$account = new Account('My Account Name');
+
+// Get an instance of the Accounts Repository
+/** @var AccountsRepository $accountsRepository */
+$accountsRepository = $wsClient->getRepositoryByName('Accounts');
+
+// Save the account
+$accountsRepository->create($account);
+
+```
     
 ## Retrieving an Entity
 
 You can retrieve an entity if you know the id.
     
-    $account = $accountsRepository->getById('11x5');
+```php
+
+$account = $accountsRepository->getById('11x5');
+
+```
     
 ## Retrieving all Entities of a kind
 
 If you want to retrieve all Accounts:
 
-    $accounts = $accountsRepository->retrieveAll();
+```php
+
+$accounts = $accountsRepository->retrieveAll();
+
+```
 
 Notice: This will actually retrieve all accounts (there is no predefined limit, so use with caution).
 
@@ -122,14 +144,18 @@ Notice: This will actually retrieve all accounts (there is no predefined limit, 
 To update an existing entity you first need an object with is already persisted (has the id set). The easiest is to
 first retrieve the Entity and to apply changes to it.
 
-    // Retrieve Account
-    $accountToBeUpdated = $accountsRepository->getById('11x5');
+```php
 
-    // Change the name
-    $accountToBeUpdated->setName('Updated Account Name');
+// Retrieve Account
+$accountToBeUpdated = $accountsRepository->getById('11x5');
 
-    // Persist the changes
-    $accountsRepository->update($accountToBeUpdated);
+// Change the name
+$accountToBeUpdated->setName('Updated Account Name');
+
+// Persist the changes
+$accountsRepository->update($accountToBeUpdated);
+
+```
 
 ## Deleting an Entity
 
@@ -137,7 +163,11 @@ To delete an existing entity you just need the id of the Entity you want to dele
 
 Say you want to delete an Account:
 
-    $accountsRepository->deleteById('11x5'));
+```php
+
+$accountsRepository->deleteById('11x5'));
+
+```
 
 # License
 
