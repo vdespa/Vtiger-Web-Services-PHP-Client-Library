@@ -34,7 +34,8 @@ In case you are new to Composer, you need to include the file `/vendor/autoload.
 
 You need to create an instance of the Client object in order to connect to the Vtiger API. 
 Therefore you need the server URL and a valid username and the access key for the user.  
-
+...
+```php
 	use Vdespa\Vtiger\Client;
 	
 	$config = $validConfiguration = [
@@ -48,7 +49,7 @@ Therefore you need the server URL and a valid username and the access key for th
 	];
 	
 	$wsClient = new Client($config);
-
+...
 
 ## Error handling
 
