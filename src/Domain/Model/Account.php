@@ -42,8 +42,6 @@ class Account extends Entity
      */
     private $name;
 
-
-
     /**
      * Account constructor.
      */
@@ -60,8 +58,6 @@ class Account extends Entity
         return $this->name;
     }
 
-
-
     /**
      * @param string $name
      */
@@ -69,12 +65,4 @@ class Account extends Entity
     {
         $this->name = $name;
     }
-
-
-
-
-
-
-
-
 }

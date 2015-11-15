@@ -70,6 +70,8 @@ interface EntityRepositoryInterface
     /**
      * @return \ArrayIterator
      * @throws \Exception
+     *
+     * TODO: This should just return an array.
      */
     public function retrieveAll();
 
