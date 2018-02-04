@@ -1,4 +1,6 @@
-Vtiger Web Services PHP Client Library (vtwsphpclib)
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
+Vtiger Web Services PHP Client Library (vtwsphpclib) 
 ======================================
 Composer based Vtiger Web Services Client.
 
